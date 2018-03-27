@@ -2,70 +2,43 @@
     <head>
         <title>Lista Telefonica</title>
         <script src="lib/angular.js"></script>
+        <script src="lib/controller/lista-telefonica-controller.js"></script>
+        <script src="lib/controller/mascara-telefone-controller.js"></script>
         <link rel="stylesheet" type="text/css" href="lib/css/bootstrap.css">
-        <style>
-            .jumbotron{
-                width: 400px;
-                text-align: center;
-                margin-top: 20px;
-                margin-left: auto;
-                margin-right: auto;
-            }
-            .table{
-                margin-top: 20px
-            }
-            .form-control{
-                margin-bottom: 5px;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="lib/css/estilo.css">
         
-        <script>
-            angular.module("listaTelefonica", []);
-            angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
-                $scope.app = "Lista Telefonica";
-                $scope.contatos = [
-                    {nome:"Pedro", telefone: "99998888"},
-                    {nome:"Ana", telefone: "99998877"},
-                    {nome:"Maria", telefone: "99998866"}
-                ];
-                $scope.operadoras=[
-                    
-                    {nome:"Oi", codigo:14},
-                    {nome:"Vivo", codigo:15},
-                    {nome:"Tim", codigo:41}
-                ]
-
-                $scope.adicionarContato = function(contato){
-                    $scope.contatos.push(angular.copy(contato));
-                    delete $scope.contato;
-                    
-                };
-            })
-        </script>
     </head>
     <body ng-controller="listaTelefonicaCtrl">
         <div class="jumbotron">
             <h3>{{app}}</h3>
-            <table class="table table-striped">
+            <table ng-show="contatos.length > 0" class="table">
                 <tr>
+                    <th></th>
                     <th>Nome</th>
                     <th>Telefone</th>
                     <th>Operadora</th>
                 </tr>
-                <tr ng-repeat="contato in contatos">
+                <tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos">
+                    <td>
+                        <div class="form-check">
+                        <input class="form-check-input" type="checkbox" ng-model="contato.selecionado">
+                        </div>
+                    </td>
                     <td>{{contato.nome}}</td>
                     <td>{{contato.telefone}}</td>
                     <td>{{contato.operadora.nome}}</td>
                 </tr>
             </table>
-            <hr>
-            
+        
             <input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome"/>
-            <input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone"/>
+            <input class="form-control" type="number" ng-model="contato.telefone" placeholder="Telefone"/>
             <select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome for operadora in operadoras">
                 <option value="">Selecione uma operadora</option>
             </select>
-            <button ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone" class="btn btn-primary btn-block">Adicionar Contato</button>
+            <button ng-click="adicionarContato(contato)" ng-disabled="!contato.nome || !contato.telefone || !contato.operadora" class="btn btn-primary btn-block">Adicionar Contato</button>
+            <button ng-click="removerContato(contatos)"  ng-show="isContatoSelecionado(contatos)" class="btn btn-danger btn-block">Remover Contato</button>
+            <button ng-click="editarContato(contatos)"  ng-show="isContatoSelecionado(contatos) || isContatoSelecionado(contatos).length == 1" class="btn btn-sencondary btn-block">Editar Contato</button>
+            <button ng-click="limparCampos()" class="btn btn-light btn-block">Limpar</button>
             
         </div>
         
