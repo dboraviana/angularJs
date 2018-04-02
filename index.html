@@ -1,10 +1,10 @@
 <html ng-app="listaTelefonica">
     <head>
+            <meta charset="utf-8"/>
         <title>Lista Telefonica</title>
         <script src="lib/js/angular.js"></script>
         <script src="lib/js/angular-messages.js"></script>
         <script src="lib/controller/lista-telefonica-controller.js"></script>
-        <script src="lib/controller/modulo-principal-controller.js"></script>
         <link rel="stylesheet" type="text/css" href="lib/css/bootstrap.css">
         <link rel="stylesheet" type="text/css" href="lib/css/estilo.css">
         
@@ -14,20 +14,22 @@
             <h3>{{app}}</h3>
             <table ng-show="contatos.length > 0" class="table">
                 <tr>
-                    <th></th>
+                    <th>  
+                      <input type="checkbox" ng-model="selecionarTodos" ng-click="isSelecionado()" />
+                    </th>
                     <th>Nome</th>
                     <th>Telefone</th>
                     <th>Operadora</th>
+                    <th>Data</th>
                 </tr>
                 <tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos">
                     <td>
-                        <div class="form-check">
-                        <input class="form-check-input" type="checkbox" ng-model="contato.selecionado">
-                        </div>
-                    </td>
+                        <input type="checkbox" ng-model="selecionarTodos" ng-click="isSelecionado()" />
+                    </td>    
                     <td>{{contato.nome}}</td>
                     <td>{{contato.telefone}}</td>
                     <td>{{contato.operadora.nome}}</td>
+                    <td>{{contato.data | date:'dd/MM/yyyy hh:mm'}}</td>
                 </tr>
             </table>
             <form name="contatoForm">
@@ -35,7 +37,7 @@
             <input class="form-control" type="text" ng-model="contato.nome" name="nome" ng-required="true" placeholder="Nome" ng-minlength="10"/>
                 <div ng-messages="contatoForm.nome.$error">
                     <div ng-show="contatoForm.nome.$error.required && contatoForm.nome.$dirty" class="alert alert-danger">
-                        O campo nome é obrigatório
+                        O campo nome é obrigatório!
                     </div>
                     <div ng-show="contatoForm.nome.$error.minlength && contatoForm.nome.$dirty" class="alert alert-warning">
                         Atenção! Informe no minímo 10 caracteres.
@@ -45,7 +47,7 @@
             <input class="form-control" type="number" ng-model="contato.telefone" name="telefone" ng-required="true" placeholder="Telefone"/>
                 <div ng-messages="contatoForm.telefone.$error">
                     <div ng-show="contatoForm.telefone.$error.required && contatoForm.telefone.$dirty" class="alert alert-danger">
-                        O campo telefone é obrigatório
+                        O campo telefone é obrigatório!
                     </div>
                 </div>
                      
@@ -54,19 +56,16 @@
             </select>
                 <div ng-messages="contatoForm.operadora.$error">    
                     <div ng-show="contatoForm.operadora.$error.required && contatoForm.operadora.$dirty" class="alert alert-danger">
-                        Selecione uma operadora!
+                            O campo operadora é obrigatório!
                     </div>
                 </div>
-            
-            </form>   
-            
-            
-            
+                
+            </form>           
                             
 
-            <button ng-click="adicionarContato(contato)" ng-disabled="!contatoForm.$valid" class="btn btn-primary btn-block">Adicionar Contato</button>
+            <button ng-click="adicionarContato(contato)" ng-disabled="!contatoForm.$valid"  ng-hide="isContatoSelecionado(contatos)" class="btn btn-primary btn-block">Adicionar Contato</button>
             <button ng-click="removerContato(contatos)"  ng-show="isContatoSelecionado(contatos)" class="btn btn-danger btn-block">Remover Contato</button>
-            <!-- <button ng-click="editarContato(contatos)"  ng-show="isContatoSelecionado(contatos) || isContatoSelecionado(contatos).length == 1" class="btn btn-sencondary btn-block">Editar Contato</button> -->
+            <button ng-click="editarContato(contatos)"  ng-show="isContatoSelecionado(contatos)" class="btn btn-sencondary btn-block">Editar Contato</button>
             <button ng-click="limparCampos()" ng-show="!isContatoSelecionado(contatos)" class="btn btn-light btn-block">Limpar</button>
             
     
