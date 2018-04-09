@@ -15,3 +15,29 @@
     background-color: rgb(182, 182, 169);
     font-weight: bold
 }
+
+.botao-filtro{
+    margin-top: 5px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    margin-right: auto;
+}
+
+.botao {
+    color: #fff;
+    background-color: #696969;
+    border-color: #696969;
+  }
+  .botao:focus,
+  .botao.focus {
+    color: #fff;
+    background-color: #A9A9A9;
+    border-color: #A9A9A9;
+  }
+  .botao:hover {
+    color: #fff;
+    background-color: #C0C0C0;
+    border-color: #C0C0C0;
+  }
+ 
+  

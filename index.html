@@ -1,17 +1,29 @@
 <html ng-app="listaTelefonica">
-    <head>
-            <meta charset="utf-8"/>
-        <title>Lista Telefonica</title>
-        <script src="lib/js/angular.js"></script>
-        <script src="lib/js/angular-messages.js"></script>
-        <script src="lib/controller/lista-telefonica-controller.js"></script>
-        <link rel="stylesheet" type="text/css" href="lib/css/bootstrap.css">
-        <link rel="stylesheet" type="text/css" href="lib/css/estilo.css">
-        
-    </head>
+<head>
+    <meta charset="utf-8"/>
+    <title>Lista Telefonica</title>
+    <script src="lib/js/angular.js"></script>
+    <script src="lib/js/angular-messages.js"></script>
+    <script src="lib/controller/lista-telefonica-controller.js"></script>
+    <link rel="stylesheet" type="text/css" href="lib/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="lib/css/estilo.css">
+    
+</head>
     <body ng-controller="listaTelefonicaCtrl">
         <div class="jumbotron">
             <h3>{{app}}</h3>
+           
+            <div>
+                    <h8 class="botao-filtro">Sua pesquisa será por: </h8>
+                    <div class="btn-group btn-group-sm botao-filtro" ng-model="campoPesquisa" role="group">
+                        <button type="button" class="btn botao" value="todos" ng-model="campoPesquisa" >Todos</button>
+                        <button type="button" class="btn botao" value="nome" ng-model="campoPesquisa">Nome</button>
+                        <button type="button" class="btn botao" value="telefone">Telefone</button>
+                        <button type="button" class="btn botao" value="operadora">Operadora</button>
+                </div>
+            </div>     
+                <input class="form-control" type="text" ng-model="contato.nome" name="nome" ng-required="true" placeholder="Informe o filtro desejado" ng-minlength="10"/>
+                
             <table ng-show="contatos.length > 0" class="table">
                 <tr>
                     <th>  
@@ -22,9 +34,10 @@
                     <th>Operadora</th>
                     <th>Data</th>
                 </tr>
+                {{campoPesquisa}}
                 <tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos">
                     <td>
-                        <input type="checkbox" ng-model="selecionarTodos" ng-click="isSelecionado()" />
+                        <input type="checkbox" ng-model="contato.selecionado"/>
                     </td>    
                     <td>{{contato.nome}}</td>
                     <td>{{contato.telefone}}</td>
